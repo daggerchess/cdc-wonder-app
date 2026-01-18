@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDC WONDER Data Downloader</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a5f7a, #2d8bba);
+            color: white;
+            padding: 30px 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .tab:hover {
+            background: #e8f4f8;
+        }
+
+        .tab.active {
+            background: #1a5f7a;
+            color: white;
+        }
+
+        .panel {
+            display: none;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        .panel h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #1a5f7a;
+            border-bottom: 2px solid #e8f4f8;
+            padding-bottom: 10px;
+        }
+
+        .preset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .preset-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .preset-card:hover {
+            border-color: #2d8bba;
+            background: #f8fcff;
+        }
+
+        .preset-card.selected {
+            border-color: #1a5f7a;
+            background: #e8f4f8;
+        }
+
+        .preset-card h3 {
+            font-size: 15px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .preset-card p {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #444;
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #2d8bba;
+            box-shadow: 0 0 0 3px rgba(45,139,186,0.1);
+        }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 8px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+        }
+
+        .checkbox-item input {
+            width: auto;
+        }
+
+        .multi-select {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .multi-select label {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            background: #f0f0f0;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .multi-select label:hover {
+            background: #e0e0e0;
+        }
+
+        .multi-select input:checked + span {
+            color: #1a5f7a;
+            font-weight: 500;
+        }
+
+        .multi-select input {
+            display: none;
+        }
+
+        .multi-select label:has(input:checked) {
+            background: #e8f4f8;
+            border: 1px solid #2d8bba;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #1a5f7a;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #145068;
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .results {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .results h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #1a5f7a;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .results-table th,
+        .results-table td {
+            padding: 8px 10px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .results-table th {
+            background: #e8f4f8;
+            font-weight: 600;
+            color: #1a5f7a;
+        }
+
+        .results-table tr:hover {
+            background: #f0f7fa;
+        }
+
+        .progress-container {
+            margin: 20px 0;
+            display: none;
+        }
+
+        .progress-container.show {
+            display: block;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1a5f7a, #2d8bba);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            font-size: 13px;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        .status-message {
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .status-message.info {
+            background: #e8f4f8;
+            color: #1a5f7a;
+        }
+
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .file-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .file-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: white;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .file-list li span {
+            font-size: 14px;
+        }
+
+        .file-list li .rows {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .preset-grid {
+                grid-template-columns: 1fr;
+            }
+            .tabs {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CDC WONDER Data Downloader</h1>
+            <p>Download provisional mortality statistics from CDC WONDER</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" data-tab="presets">Quick Presets</button>
+            <button class="tab" data-tab="custom">Custom Query</button>
+            <button class="tab" data-tab="batch">Batch Download</button>
+        </div>
+
+        <!-- Presets Panel -->
+        <div class="panel active" id="presets">
+            <h2>Select a Preset Query</h2>
+
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label>Time Granularity</label>
+                <select id="preset-time-granularity">
+                    <option value="year">Yearly</option>
+                    <option value="month">Monthly</option>
+                    <option value="week" selected>Weekly (MMWR Week)</option>
+                </select>
+            </div>
+
+            <div class="preset-grid">
+                {% for key, preset in presets.items() %}
+                <div class="preset-card" data-preset="{{ key }}">
+                    <h3>{{ preset.name }}</h3>
+                    <p>{{ preset.description }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" id="run-preset" disabled>Run Selected Query</button>
+            </div>
+        </div>
+
+        <!-- Custom Query Panel -->
+        <div class="panel" id="custom">
+            <h2>Build Custom Query</h2>
+
+            <div class="form-group">
+                <label>Years</label>
+                <div class="multi-select" id="years-select">
+                    {% for year in years %}
+                    <label>
+                        <input type="checkbox" name="years" value="{{ year }}" {% if year >= 2020 %}checked{% endif %}>
+                        <span>{{ year }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Time Granularity</label>
+                <select id="time-granularity">
+                    <option value="year">Yearly</option>
+                    <option value="month">Monthly</option>
+                    <option value="week" selected>Weekly (MMWR Week)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Additional Groupings</label>
+                <div class="multi-select" id="groupby-select">
+                    {% for value, label in group_by_options %}
+                    {% if value not in ['year', 'month', 'week'] %}
+                    <label>
+                        <input type="checkbox" name="group_by" value="{{ value }}">
+                        <span>{{ label }}</span>
+                    </label>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Cause of Death</label>
+                <select id="cause-select">
+                    {% for value, label in cause_options %}
+                    <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Age Group Filter</label>
+                <select id="age-select">
+                    {% for value, label in age_groups %}
+                    <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-primary" id="run-custom">Run Custom Query</button>
+            </div>
+        </div>
+
+        <!-- Batch Download Panel -->
+        <div class="panel" id="batch">
+            <h2>Batch Download - Cycle Through Dimensions</h2>
+            <p style="margin-bottom: 20px; color: #666;">
+                Select dimensions to cycle through. Each combination creates a separate CSV file with weekly data.
+                For example: Gender (2) x Race (5) x Cause (10) = 100 files.
+            </p>
+
+            <div class="form-group" style="background: #f0f7fa; padding: 15px; border-radius: 8px; border-left: 4px solid #1a5f7a;">
+                <label>Age Granularity in Output</label>
+                <div class="multi-select">
+                    <label><input type="radio" name="batch_age_granularity" value="decennial" checked><span>10-year groups (decennial)</span></label>
+                    <label><input type="radio" name="batch_age_granularity" value="quinquennial"><span>5-year groups (quinquennial)</span></label>
+                </div>
+                <small style="color: #666; margin-top: 8px; display: block;">This sets the age detail level in all output files</small>
+            </div>
+
+            <div class="form-group">
+                <label>Cycle through Gender</label>
+                <div class="multi-select">
+                    <label><input type="checkbox" name="batch_gender" value="M" checked><span>Male</span></label>
+                    <label><input type="checkbox" name="batch_gender" value="F" checked><span>Female</span></label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Cycle through Race</label>
+                <div class="multi-select">
+                    <label><input type="checkbox" name="batch_race" value="2106-3" checked><span>White</span></label>
+                    <label><input type="checkbox" name="batch_race" value="2054-5" checked><span>Black</span></label>
+                    <label><input type="checkbox" name="batch_race" value="1002-5" checked><span>American Indian/Alaska Native</span></label>
+                    <label><input type="checkbox" name="batch_race" value="A" checked><span>Asian</span></label>
+                    <label><input type="checkbox" name="batch_race" value="NHOPI" checked><span>Native Hawaiian/Pacific Islander</span></label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Cycle through Cause of Death</label>
+                <div class="multi-select">
+                    <label><input type="checkbox" name="batch_cause" value="" checked><span>All Causes</span></label>
+                    <label><input type="checkbox" name="batch_cause" value="covid19"><span>COVID-19</span></label>
+                    <label><input type="checkbox" name="batch_cause" value="heart_disease"><span>Heart Disease</span></label>
+                    <label><input type="checkbox" name="batch_cause" value="cancer"><span>Cancer</span></label>
+                    <label><input type="checkbox" name="batch_cause" value="accidents"><span>Accidents</span></label>
+                    <label><input type="checkbox" name="batch_cause" value="stroke"><span>Stroke</span></label>
+                    <label><input type="checkbox" name="batch_cause" value="alzheimers"><span>Alzheimer's</span></label>
+                    <label><input type="checkbox" name="batch_cause" value="diabetes"><span>Diabetes</span></label>
+                    <label><input type="checkbox" name="batch_cause" value="influenza_pneumonia"><span>Influenza/Pneumonia</span></label>
+                    <label><input type="checkbox" name="batch_cause" value="drug_overdose"><span>Drug Overdose</span></label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Create Separate Files by Age Group</label>
+                <div class="multi-select">
+                    <label><input type="radio" name="batch_age_cycle" value="none" checked><span>All ages in one file</span></label>
+                    <label><input type="radio" name="batch_age_cycle" value="cycle"><span>Separate file per age group</span></label>
+                </div>
+                <small style="color: #666; margin-top: 8px; display: block;">Uses the age granularity selected above (11 or 24 files per combination)</small>
+            </div>
+
+            <div id="batch-summary" style="padding: 15px; background: #e8f4f8; border-radius: 6px; margin-bottom: 20px;">
+                <strong>Files to create:</strong> <span id="file-count">10</span>
+                <br><small id="file-breakdown">2 genders × 5 races × 1 cause = 10 files</small>
+                <br><small style="color: #555; margin-top: 5px; display: block;"><strong>Download:</strong> Links appear below after processing completes</small>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-primary" id="run-batch">Run Batch Download</button>
+            </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-container" id="progress">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="progress-text" id="progress-text">Starting...</div>
+        </div>
+
+        <!-- Results -->
+        <div class="results" id="results">
+            <div id="results-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        // Preset selection
+        let selectedPreset = null;
+        document.querySelectorAll('.preset-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                selectedPreset = card.dataset.preset;
+                document.getElementById('run-preset').disabled = false;
+            });
+        });
+
+        // Run preset query
+        document.getElementById('run-preset').addEventListener('click', async () => {
+            if (!selectedPreset) return;
+            const timeGranularity = document.getElementById('preset-time-granularity').value;
+            await runQuery({
+                query_type: 'preset',
+                preset: selectedPreset,
+                time_granularity: timeGranularity
+            });
+        });
+
+        // Run custom query
+        document.getElementById('run-custom').addEventListener('click', async () => {
+            const years = Array.from(document.querySelectorAll('input[name="years"]:checked')).map(cb => cb.value);
+            const additionalGroupBy = Array.from(document.querySelectorAll('input[name="group_by"]:checked')).map(cb => cb.value);
+            const timeGranularity = document.getElementById('time-granularity').value;
+            const cause = document.getElementById('cause-select').value;
+            const ageGroup = document.getElementById('age-select').value;
+
+            if (years.length === 0) {
+                alert('Please select at least one year');
+                return;
+            }
+
+            // Build group_by: time granularity first, then additional groupings
+            let groupBy = [];
+            if (timeGranularity === 'week') {
+                groupBy = ['year', 'week'];
+            } else if (timeGranularity === 'month') {
+                groupBy = ['year', 'month'];
+            } else {
+                groupBy = ['year'];
+            }
+            // Add additional groupings
+            additionalGroupBy.forEach(g => {
+                if (!groupBy.includes(g)) groupBy.push(g);
+            });
+
+            await runQuery({
+                query_type: 'custom',
+                years: years,
+                group_by: groupBy,
+                cause: cause,
+                age_group: ageGroup
+            });
+        });
+
+        // Batch download - calculate file count
+        function updateBatchCount() {
+            const genders = document.querySelectorAll('input[name="batch_gender"]:checked').length || 1;
+            const races = document.querySelectorAll('input[name="batch_race"]:checked').length || 1;
+            const causes = document.querySelectorAll('input[name="batch_cause"]:checked').length || 1;
+
+            const ageGranularity = document.querySelector('input[name="batch_age_granularity"]:checked')?.value || 'decennial';
+            const ageCycle = document.querySelector('input[name="batch_age_cycle"]:checked')?.value || 'none';
+
+            let ageMultiplier = 1;
+            let ageLabel = '';
+            if (ageCycle === 'cycle') {
+                if (ageGranularity === 'decennial') {
+                    ageMultiplier = 11;
+                    ageLabel = '11 age groups (10-yr)';
+                } else {
+                    ageMultiplier = 24;
+                    ageLabel = '24 age groups (5-yr)';
+                }
+            }
+
+            const total = genders * races * causes * ageMultiplier;
+            document.getElementById('file-count').textContent = total;
+
+            let breakdown = [];
+            if (genders > 1 || document.querySelectorAll('input[name="batch_gender"]:checked').length > 0)
+                breakdown.push(`${genders} gender${genders > 1 ? 's' : ''}`);
+            if (races > 1 || document.querySelectorAll('input[name="batch_race"]:checked').length > 0)
+                breakdown.push(`${races} race${races > 1 ? 's' : ''}`);
+            if (causes > 1 || document.querySelectorAll('input[name="batch_cause"]:checked').length > 0)
+                breakdown.push(`${causes} cause${causes > 1 ? 's' : ''}`);
+            if (ageLabel) breakdown.push(ageLabel);
+
+            document.getElementById('file-breakdown').textContent = breakdown.join(' × ') + ' = ' + total + ' files';
+        }
+
+        // Update count when checkboxes change
+        document.querySelectorAll('input[name^="batch_"]').forEach(cb => {
+            cb.addEventListener('change', updateBatchCount);
+        });
+        updateBatchCount();
+
+        // Run batch download
+        document.getElementById('run-batch').addEventListener('click', async () => {
+            const genders = Array.from(document.querySelectorAll('input[name="batch_gender"]:checked')).map(cb => cb.value);
+            const races = Array.from(document.querySelectorAll('input[name="batch_race"]:checked')).map(cb => cb.value);
+            const causes = Array.from(document.querySelectorAll('input[name="batch_cause"]:checked')).map(cb => cb.value);
+            const ageGranularity = document.querySelector('input[name="batch_age_granularity"]:checked')?.value || 'decennial';
+            const ageCycle = document.querySelector('input[name="batch_age_cycle"]:checked')?.value || 'none';
+
+            if (genders.length === 0 && races.length === 0 && causes.length === 0) {
+                alert('Please select at least one option to cycle through');
+                return;
+            }
+
+            showProgress();
+            document.getElementById('results').classList.remove('show');
+
+            try {
+                const response = await fetch('/api/batch', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        genders: genders.length > 0 ? genders : ['*All*'],
+                        races: races.length > 0 ? races : ['*All*'],
+                        causes: causes.length > 0 ? causes : [''],
+                        age_granularity: ageGranularity,
+                        age_cycle: ageCycle === 'cycle'
+                    })
+                });
+                const data = await response.json();
+                pollJobStatus(data.job_id, true);
+            } catch (error) {
+                showError('Failed to start batch download: ' + error.message);
+            }
+        });
+
+        async function runQuery(params) {
+            showProgress();
+            document.getElementById('results').classList.remove('show');
+
+            try {
+                const response = await fetch('/api/query', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(params)
+                });
+                const data = await response.json();
+                pollJobStatus(data.job_id, false);
+            } catch (error) {
+                showError('Failed to start query: ' + error.message);
+            }
+        }
+
+        function pollJobStatus(jobId, isMultiple) {
+            const interval = setInterval(async () => {
+                try {
+                    const response = await fetch(`/api/job/${jobId}`);
+                    const job = await response.json();
+
+                    if (job.progress !== undefined) {
+                        updateProgress(job.progress, job.current || 'Processing...');
+                    }
+
+                    if (job.status === 'complete') {
+                        clearInterval(interval);
+                        hideProgress();
+                        if (isMultiple) {
+                            showMultipleResults(job.files);
+                        } else {
+                            showResults(job.result);
+                        }
+                    } else if (job.status === 'error') {
+                        clearInterval(interval);
+                        hideProgress();
+                        showError(job.error);
+                    }
+                } catch (error) {
+                    clearInterval(interval);
+                    hideProgress();
+                    showError('Failed to check status: ' + error.message);
+                }
+            }, 1000);
+        }
+
+        function showProgress() {
+            document.getElementById('progress').classList.add('show');
+            updateProgress(0, 'Starting...');
+        }
+
+        function hideProgress() {
+            document.getElementById('progress').classList.remove('show');
+        }
+
+        function updateProgress(percent, text) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = text;
+        }
+
+        function showResults(result) {
+            const container = document.getElementById('results-content');
+
+            let tableHtml = '<table class="results-table"><thead><tr>';
+            result.headers.forEach(h => {
+                tableHtml += `<th>${h}</th>`;
+            });
+            tableHtml += '</tr></thead><tbody>';
+            result.preview.forEach(row => {
+                tableHtml += '<tr>';
+                row.forEach(cell => {
+                    tableHtml += `<td>${cell}</td>`;
+                });
+                tableHtml += '</tr>';
+            });
+            tableHtml += '</tbody></table>';
+
+            container.innerHTML = `
+                <div class="status-message success">Query completed! Found ${result.rows} rows.</div>
+                <h3>Preview (first 10 rows)</h3>
+                ${tableHtml}
+                <div class="actions">
+                    <a href="/api/download/${result.filename}" class="btn btn-success">Download CSV</a>
+                </div>
+            `;
+
+            document.getElementById('results').classList.add('show');
+        }
+
+        function showMultipleResults(files) {
+            const container = document.getElementById('results-content');
+
+            let fileListHtml = '<ul class="file-list">';
+            files.forEach(f => {
+                fileListHtml += `
+                    <li>
+                        <span>${f.name} <span class="rows">(${f.rows} rows)</span></span>
+                        <a href="/api/download/${f.file}" class="btn btn-secondary">Download</a>
+                    </li>
+                `;
+            });
+            fileListHtml += '</ul>';
+
+            container.innerHTML = `
+                <div class="status-message success">All queries completed! Created ${files.length} files.</div>
+                <h3>Downloaded Files</h3>
+                ${fileListHtml}
+            `;
+
+            document.getElementById('results').classList.add('show');
+        }
+
+        function showError(message) {
+            const container = document.getElementById('results-content');
+            container.innerHTML = `<div class="status-message error">Error: ${message}</div>`;
+            document.getElementById('results').classList.add('show');
+        }
+    </script>
+</body>
+</html>

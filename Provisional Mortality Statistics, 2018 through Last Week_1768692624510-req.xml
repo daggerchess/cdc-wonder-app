@@ -1,0 +1,633 @@
+<?xml version="1.0" encoding="UTF-8"?><request-parameters>
+	<parameter>
+		<name>B_1</name>
+		<value>D176.V5</value>
+	</parameter>
+	<parameter>
+		<name>B_2</name>
+		<value>D176.V100-level1</value>
+	</parameter>
+	<parameter>
+		<name>B_3</name>
+		<value>D176.V100-level2</value>
+	</parameter>
+	<parameter>
+		<name>B_4</name>
+		<value>*None*</value>
+	</parameter>
+	<parameter>
+		<name>B_5</name>
+		<value>*None*</value>
+	</parameter>
+	<parameter>
+		<name>F_D176.V1</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>F_D176.V10</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>F_D176.V100</name>
+		<value>2020</value>
+		<value>2021</value>
+		<value>2022</value>
+		<value>2023</value>
+		<value>2024</value>
+		<value>2025</value>
+	</parameter>
+	<parameter>
+		<name>F_D176.V13</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>F_D176.V2</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>F_D176.V25</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>F_D176.V26</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>F_D176.V27</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>F_D176.V77</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>F_D176.V79</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>F_D176.V80</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>F_D176.V9</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>I_D176.V1</name>
+		<value>*All* (All Dates)
+</value>
+	</parameter>
+	<parameter>
+		<name>I_D176.V10</name>
+		<value>*All* (The United States)
+</value>
+	</parameter>
+	<parameter>
+		<name>I_D176.V100</name>
+		<value>2020 (2020)
+2021 (2021)
+2022 (2022)
+2023 (2023)
+2024 (2024 (provisional))
+2025 (2025 (provisional and partial))
+</value>
+	</parameter>
+	<parameter>
+		<name>I_D176.V2</name>
+		<value>*All* (All Causes of Death)
+</value>
+	</parameter>
+	<parameter>
+		<name>I_D176.V25</name>
+		<value>All Causes of Death
+</value>
+	</parameter>
+	<parameter>
+		<name>I_D176.V27</name>
+		<value>*All* (The United States)
+</value>
+	</parameter>
+	<parameter>
+		<name>I_D176.V77</name>
+		<value>*All* (The United States)
+</value>
+	</parameter>
+	<parameter>
+		<name>I_D176.V79</name>
+		<value>*All* (The United States)
+</value>
+	</parameter>
+	<parameter>
+		<name>I_D176.V80</name>
+		<value>*All* (The United States)
+</value>
+	</parameter>
+	<parameter>
+		<name>I_D176.V9</name>
+		<value>*All* (The United States)
+</value>
+	</parameter>
+	<parameter>
+		<name>L_D176.V15</name>
+		<value>GR113-001</value>
+		<value>GR113-002</value>
+		<value>GR113-003</value>
+		<value>GR113-004</value>
+		<value>GR113-005</value>
+		<value>GR113-006</value>
+		<value>GR113-007</value>
+		<value>GR113-008</value>
+		<value>GR113-009</value>
+		<value>GR113-010</value>
+		<value>GR113-011</value>
+		<value>GR113-012</value>
+		<value>GR113-013</value>
+		<value>GR113-014</value>
+		<value>GR113-015</value>
+		<value>GR113-016</value>
+		<value>GR113-017</value>
+		<value>GR113-018</value>
+		<value>GR113-019</value>
+		<value>GR113-020</value>
+		<value>GR113-021</value>
+		<value>GR113-022</value>
+		<value>GR113-023</value>
+		<value>GR113-024</value>
+		<value>GR113-025</value>
+		<value>GR113-026</value>
+		<value>GR113-027</value>
+		<value>GR113-028</value>
+		<value>GR113-029</value>
+		<value>GR113-030</value>
+		<value>GR113-031</value>
+		<value>GR113-032</value>
+		<value>GR113-033</value>
+		<value>GR113-034</value>
+		<value>GR113-035</value>
+		<value>GR113-036</value>
+		<value>GR113-037</value>
+		<value>GR113-038</value>
+		<value>GR113-039</value>
+		<value>GR113-040</value>
+		<value>GR113-041</value>
+		<value>GR113-042</value>
+		<value>GR113-043</value>
+		<value>GR113-044</value>
+	</parameter>
+	<parameter>
+		<name>L_D176.V16</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>M_1</name>
+		<value>D176.M1</value>
+	</parameter>
+	<parameter>
+		<name>M_2</name>
+		<value>D176.M2</value>
+	</parameter>
+	<parameter>
+		<name>M_3</name>
+		<value>D176.M3</value>
+	</parameter>
+	<parameter>
+		<name>O_MMWR</name>
+		<value>false</value>
+	</parameter>
+	<parameter>
+		<name>O_V100_fmode</name>
+		<value>freg</value>
+	</parameter>
+	<parameter>
+		<name>O_V10_fmode</name>
+		<value>freg</value>
+	</parameter>
+	<parameter>
+		<name>O_V13_fmode</name>
+		<value>fadv</value>
+	</parameter>
+	<parameter>
+		<name>O_V15_fmode</name>
+		<value>fadv</value>
+	</parameter>
+	<parameter>
+		<name>O_V16_fmode</name>
+		<value>fadv</value>
+	</parameter>
+	<parameter>
+		<name>O_V1_fmode</name>
+		<value>freg</value>
+	</parameter>
+	<parameter>
+		<name>O_V25_fmode</name>
+		<value>freg</value>
+	</parameter>
+	<parameter>
+		<name>O_V26_fmode</name>
+		<value>fadv</value>
+	</parameter>
+	<parameter>
+		<name>O_V27_fmode</name>
+		<value>freg</value>
+	</parameter>
+	<parameter>
+		<name>O_V2_fmode</name>
+		<value>freg</value>
+	</parameter>
+	<parameter>
+		<name>O_V77_fmode</name>
+		<value>freg</value>
+	</parameter>
+	<parameter>
+		<name>O_V79_fmode</name>
+		<value>freg</value>
+	</parameter>
+	<parameter>
+		<name>O_V80_fmode</name>
+		<value>freg</value>
+	</parameter>
+	<parameter>
+		<name>O_V9_fmode</name>
+		<value>freg</value>
+	</parameter>
+	<parameter>
+		<name>O_aar</name>
+		<value>aar_none</value>
+	</parameter>
+	<parameter>
+		<name>O_aar_pop</name>
+		<value>0000</value>
+	</parameter>
+	<parameter>
+		<name>O_age</name>
+		<value>D176.V5</value>
+	</parameter>
+	<parameter>
+		<name>O_change_action-Send-Export Results</name>
+		<value>Export Results</value>
+	</parameter>
+	<parameter>
+		<name>O_dates</name>
+		<value>MMWR</value>
+	</parameter>
+	<parameter>
+		<name>O_death_location</name>
+		<value>D176.V79</value>
+	</parameter>
+	<parameter>
+		<name>O_death_urban</name>
+		<value>D176.V89</value>
+	</parameter>
+	<parameter>
+		<name>O_export-format</name>
+		<value>xls</value>
+	</parameter>
+	<parameter>
+		<name>O_javascript</name>
+		<value>on</value>
+	</parameter>
+	<parameter>
+		<name>O_location</name>
+		<value>D176.V9</value>
+	</parameter>
+	<parameter>
+		<name>O_mcd</name>
+		<value>D176.V15</value>
+	</parameter>
+	<parameter>
+		<name>O_oc-sect1-request</name>
+		<value>close</value>
+	</parameter>
+	<parameter>
+		<name>O_precision</name>
+		<value>1</value>
+	</parameter>
+	<parameter>
+		<name>O_race</name>
+		<value>D176.V42</value>
+	</parameter>
+	<parameter>
+		<name>O_rate_per</name>
+		<value>100000</value>
+	</parameter>
+	<parameter>
+		<name>O_show_suppressed</name>
+		<value>true</value>
+	</parameter>
+	<parameter>
+		<name>O_show_totals</name>
+		<value>true</value>
+	</parameter>
+	<parameter>
+		<name>O_show_zeros</name>
+		<value>true</value>
+	</parameter>
+	<parameter>
+		<name>O_timeout</name>
+		<value>600</value>
+	</parameter>
+	<parameter>
+		<name>O_title</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>O_ucd</name>
+		<value>D176.V2</value>
+	</parameter>
+	<parameter>
+		<name>O_urban</name>
+		<value>D176.V19</value>
+	</parameter>
+	<parameter>
+		<name>VM_D176.M6_D176.V10</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>VM_D176.M6_D176.V17</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>VM_D176.M6_D176.V1_S</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>VM_D176.M6_D176.V42</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>VM_D176.M6_D176.V7</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>V_D176.V1</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>V_D176.V10</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>V_D176.V100</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>V_D176.V11</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>V_D176.V12</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>V_D176.V13</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>V_D176.V13_AND</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>V_D176.V15</name>
+		<value>GR113-001 Salmonella infections (A01-A02)
+GR113-002 Shigellosis and amebiasis (A03,A06)
+GR113-003 Certain other intestinal infections (A04,A07-A09)
+GR113-004 Tuberculosis (A16-A19)
+GR113-005 Respiratory tuberculosis (A16)
+GR113-006 Other tuberculosis (A17-A19)
+GR113-007 Whooping cough (A37)
+GR113-008 Scarlet fever and erysipelas (A38,A46)
+GR113-009 Meningococcal infection (A39)
+GR113-010 Septicemia (A40-A41)
+GR113-011 Syphilis (A50-A53)
+GR113-012 Acute poliomyelitis (A80)
+GR113-013 Arthropod-borne viral encephalitis (A83-A84,A85.2)
+GR113-014 Measles (B05)
+GR113-015 Viral hepatitis (B15-B19)
+GR113-016 Human immunodeficiency virus (HIV) disease (B20-B24)
+GR113-017 Malaria (B50-B54)
+GR113-018 Other and unspecified infectious and parasitic diseases and their sequelae (A00,A05,A20-A36,A42-A44,A48-A49,A54-A79,A81-A82,A85.0-A85.1,A85.8,A86-B04,B06-B09,B25-B49,B55-B99,U07.1,U09.9)
+GR113-019 Malignant neoplasms (C00-C97)
+GR113-020 Malignant neoplasms of lip, oral cavity and pharynx (C00-C14)
+GR113-021 Malignant neoplasm of esophagus (C15)
+GR113-022 Malignant neoplasm of stomach (C16)
+GR113-023 Malignant neoplasms of colon, rectum and anus (C18-C21)
+GR113-024 Malignant neoplasms of liver and intrahepatic bile ducts (C22)
+GR113-025 Malignant neoplasm of pancreas (C25)
+GR113-026 Malignant neoplasm of larynx (C32)
+GR113-027 Malignant neoplasms of trachea, bronchus and lung (C33-C34)
+GR113-028 Malignant melanoma of skin (C43)
+GR113-029 Malignant neoplasm of breast (C50)
+GR113-030 Malignant neoplasm of cervix uteri (C53)
+GR113-031 Malignant neoplasms of corpus uteri and uterus, part unspecified (C54-C55)
+GR113-032 Malignant neoplasm of ovary (C56)
+GR113-033 Malignant neoplasm of prostate (C61)
+GR113-034 Malignant neoplasms of kidney and renal pelvis (C64-C65)
+GR113-035 Malignant neoplasm of bladder (C67)
+GR113-036 Malignant neoplasms of meninges, brain and other parts of central nervous system (C70-C72)
+GR113-037 Malignant neoplasms of lymphoid, hematopoietic and related tissue (C81-C96)
+GR113-038 Hodgkin disease (C81)
+GR113-039 Non-Hodgkin lymphoma (C82-C85)
+GR113-040 Leukemia (C91-C95)
+GR113-041 Multiple myeloma and immunoproliferative neoplasms (C88,C90)
+GR113-042 Other and unspecified malignant neoplasms of lymphoid, hematopoietic and related tissue (C96)
+GR113-043 All other and unspecified malignant neoplasms (C17,C23-C24,C26-C31,C37-C41,C44-C49,C51-C52,C57-C60,C62-C63,C66,C68-C69,C73-C80,C97)
+GR113-044 In situ neoplasms, benign neoplasms and neoplasms of uncertain or unknown behavior (D00-D48)
+</value>
+	</parameter>
+	<parameter>
+		<name>V_D176.V15_AND</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>V_D176.V16</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>V_D176.V16_AND</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>V_D176.V17</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>V_D176.V19</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>V_D176.V2</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>V_D176.V20</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>V_D176.V21</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>V_D176.V22</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>V_D176.V23</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>V_D176.V25</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>V_D176.V26</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>V_D176.V26_AND</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>V_D176.V27</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>V_D176.V4</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>V_D176.V42</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>V_D176.V43</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>V_D176.V44</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>V_D176.V5</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>V_D176.V51</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>V_D176.V52</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>V_D176.V6</name>
+		<value>00</value>
+	</parameter>
+	<parameter>
+		<name>V_D176.V7</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>V_D176.V77</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>V_D176.V79</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>V_D176.V80</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>V_D176.V81</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>V_D176.V89</name>
+		<value>*All*</value>
+	</parameter>
+	<parameter>
+		<name>V_D176.V9</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>action-Send</name>
+		<value>Send</value>
+	</parameter>
+	<parameter>
+		<name>dataset_code</name>
+		<value>D176</value>
+	</parameter>
+	<parameter>
+		<name>dataset_label</name>
+		<value>Provisional Mortality Statistics, 2018 through Last Week</value>
+	</parameter>
+	<parameter>
+		<name>dataset_vintage</name>
+		<value>January 3, 2026 as of  January 11, 2026</value>
+	</parameter>
+	<parameter>
+		<name>finder-stage-D176.V1</name>
+		<value>codeset</value>
+	</parameter>
+	<parameter>
+		<name>finder-stage-D176.V10</name>
+		<value>codeset</value>
+	</parameter>
+	<parameter>
+		<name>finder-stage-D176.V100</name>
+		<value>codeset</value>
+	</parameter>
+	<parameter>
+		<name>finder-stage-D176.V13</name>
+		<value>codeset</value>
+	</parameter>
+	<parameter>
+		<name>finder-stage-D176.V15</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>finder-stage-D176.V16</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>finder-stage-D176.V2</name>
+		<value>codeset</value>
+	</parameter>
+	<parameter>
+		<name>finder-stage-D176.V25</name>
+		<value>codeset</value>
+	</parameter>
+	<parameter>
+		<name>finder-stage-D176.V26</name>
+		<value>codeset</value>
+	</parameter>
+	<parameter>
+		<name>finder-stage-D176.V27</name>
+		<value>codeset</value>
+	</parameter>
+	<parameter>
+		<name>finder-stage-D176.V77</name>
+		<value>codeset</value>
+	</parameter>
+	<parameter>
+		<name>finder-stage-D176.V79</name>
+		<value>codeset</value>
+	</parameter>
+	<parameter>
+		<name>finder-stage-D176.V80</name>
+		<value>codeset</value>
+	</parameter>
+	<parameter>
+		<name>finder-stage-D176.V9</name>
+		<value>codeset</value>
+	</parameter>
+	<parameter>
+		<name>saved_id</name>
+		<value/>
+	</parameter>
+	<parameter>
+		<name>stage</name>
+		<value>request</value>
+	</parameter>
+</request-parameters>

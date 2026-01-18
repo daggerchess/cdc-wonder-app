@@ -1,0 +1,13 @@
+# Ignore generated CSV files
+deaths_*.csv
+cdc_wonder_*.csv
+
+# Ignore cache
+__pycache__/
+*.pyc
+
+# Ignore local settings
+.claude/
+
+# Windows system files
+nul
