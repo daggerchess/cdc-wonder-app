@@ -370,6 +370,7 @@ def execute_batch_queries(job_id, data):
     """Execute batch queries for all combinations."""
     import xml.etree.ElementTree as ET
     import itertools
+    import csv
 
     template_file = "Provisional Mortality Statistics, 2018 through Last Week_1768692313298-req ) Master.xml"
 
@@ -383,6 +384,7 @@ def execute_batch_queries(job_id, data):
     causes = data.get("causes", [""])
     age_granularity = data.get("age_granularity", "decennial")
     age_cycle = data.get("age_cycle", False)
+    combine_files = data.get("combine_files", False)
 
     # Determine age parameter based on granularity (this affects the group-by in the query)
     if age_granularity == "quinquennial":
@@ -399,6 +401,33 @@ def execute_batch_queries(job_id, data):
     combinations = list(itertools.product(genders, races, causes, age_groups))
     total = len(combinations)
     files = []
+
+    # For combined output
+    combined_data = []
+    combined_headers = None
+
+    # Human-readable labels for combined file
+    GENDER_READABLE = {"M": "Male", "F": "Female", "*All*": "All"}
+    RACE_READABLE = {
+        "2106-3": "White",
+        "2054-5": "Black",
+        "1002-5": "American Indian/Alaska Native",
+        "A": "Asian",
+        "NHOPI": "Native Hawaiian/Pacific Islander",
+        "*All*": "All"
+    }
+    CAUSE_READABLE = {
+        "": "All Causes",
+        "covid19": "COVID-19",
+        "heart_disease": "Heart Disease",
+        "cancer": "Cancer",
+        "accidents": "Accidents",
+        "stroke": "Stroke",
+        "alzheimers": "Alzheimer's",
+        "diabetes": "Diabetes",
+        "influenza_pneumonia": "Influenza/Pneumonia",
+        "drug_overdose": "Drug Overdose"
+    }
 
     client = CDCWonderClient()
 
@@ -417,7 +446,7 @@ def execute_batch_queries(job_id, data):
 
             filename = "deaths_" + ("_".join(parts) if parts else "all") + ".csv"
             jobs[job_id]["progress"] = int((i / total) * 100)
-            jobs[job_id]["current"] = filename
+            jobs[job_id]["current"] = f"Query {i+1}/{total}: {filename}"
 
             # Load and modify template
             tree = ET.parse(template_file)
@@ -496,16 +525,53 @@ def execute_batch_queries(job_id, data):
             try:
                 result = client._send_request(xml_request)
                 if not result.get("error"):
-                    client.save_to_csv(result, filename)
-                    files.append({"name": filename.replace(".csv", "").replace("deaths_", ""), "file": filename, "rows": len(result["data"])})
+                    if combine_files:
+                        # Store headers from first result
+                        if combined_headers is None:
+                            combined_headers = ["Gender", "Race", "Cause_of_Death"] + result["headers"]
+                            if age_cycle:
+                                combined_headers.insert(3, "Age_Filter")
+
+                        # Add rows with identifying columns
+                        gender_label = GENDER_READABLE.get(gender, gender)
+                        race_label = RACE_READABLE.get(race, race)
+                        cause_label = CAUSE_READABLE.get(cause, cause)
+                        age_label = age_groups_dict.get(age, "All") if age else "All"
+
+                        for row in result["data"]:
+                            if age_cycle:
+                                combined_data.append([gender_label, race_label, cause_label, age_label] + list(row))
+                            else:
+                                combined_data.append([gender_label, race_label, cause_label] + list(row))
+                    else:
+                        client.save_to_csv(result, filename)
+                        files.append({"name": filename.replace(".csv", "").replace("deaths_", ""), "file": filename, "rows": len(result["data"])})
                 else:
-                    files.append({"name": filename, "file": None, "error": result["error"]})
+                    if not combine_files:
+                        files.append({"name": filename, "file": None, "error": result["error"]})
             except Exception as e:
-                files.append({"name": filename, "file": None, "error": str(e)})
+                if not combine_files:
+                    files.append({"name": filename, "file": None, "error": str(e)})
 
             time.sleep(2)  # Rate limiting
 
-        jobs[job_id]["files"] = files
+        # Save combined file if requested
+        if combine_files and combined_data:
+            combined_filename = "deaths_combined.csv"
+            with open(combined_filename, 'w', newline='', encoding='utf-8') as f:
+                writer = csv.writer(f)
+                writer.writerow(combined_headers)
+                writer.writerows(combined_data)
+
+            jobs[job_id]["result"] = {
+                "rows": len(combined_data),
+                "headers": combined_headers,
+                "preview": combined_data[:10],
+                "filename": combined_filename
+            }
+        else:
+            jobs[job_id]["files"] = files
+
         jobs[job_id]["status"] = "complete"
         jobs[job_id]["progress"] = 100
 

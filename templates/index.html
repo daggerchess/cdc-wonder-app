@@ -547,9 +547,17 @@
                 <small style="color: #666; margin-top: 8px; display: block;">Uses the age granularity selected above (11 or 24 files per combination)</small>
             </div>
 
+            <div class="form-group">
+                <label>Output Format</label>
+                <div class="multi-select">
+                    <label><input type="radio" name="batch_output" value="separate" checked><span>Separate files</span></label>
+                    <label><input type="radio" name="batch_output" value="combined"><span>Combined single file (adds Gender, Race, Cause columns)</span></label>
+                </div>
+            </div>
+
             <div id="batch-summary" style="padding: 15px; background: #e8f4f8; border-radius: 6px; margin-bottom: 20px;">
-                <strong>Files to create:</strong> <span id="file-count">10</span>
-                <br><small id="file-breakdown">2 genders × 5 races × 1 cause = 10 files</small>
+                <strong>Queries to run:</strong> <span id="file-count">10</span>
+                <br><small id="file-breakdown">2 genders × 5 races × 1 cause = 10 queries</small>
                 <br><small style="color: #555; margin-top: 5px; display: block;"><strong>Download:</strong> Links appear below after processing completes</small>
             </div>
 
@@ -690,6 +698,7 @@
             const causes = Array.from(document.querySelectorAll('input[name="batch_cause"]:checked')).map(cb => cb.value);
             const ageGranularity = document.querySelector('input[name="batch_age_granularity"]:checked')?.value || 'decennial';
             const ageCycle = document.querySelector('input[name="batch_age_cycle"]:checked')?.value || 'none';
+            const outputFormat = document.querySelector('input[name="batch_output"]:checked')?.value || 'separate';
 
             if (genders.length === 0 && races.length === 0 && causes.length === 0) {
                 alert('Please select at least one option to cycle through');
@@ -708,11 +717,12 @@
                         races: races.length > 0 ? races : ['*All*'],
                         causes: causes.length > 0 ? causes : [''],
                         age_granularity: ageGranularity,
-                        age_cycle: ageCycle === 'cycle'
+                        age_cycle: ageCycle === 'cycle',
+                        combine_files: outputFormat === 'combined'
                     })
                 });
                 const data = await response.json();
-                pollJobStatus(data.job_id, true);
+                pollJobStatus(data.job_id, outputFormat !== 'combined');
             } catch (error) {
                 showError('Failed to start batch download: ' + error.message);
             }
