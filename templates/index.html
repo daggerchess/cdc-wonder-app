@@ -504,19 +504,21 @@
             <div class="form-group">
                 <label>Cycle through Gender</label>
                 <div class="multi-select">
-                    <label><input type="checkbox" name="batch_gender" value="M" checked><span>Male</span></label>
-                    <label><input type="checkbox" name="batch_gender" value="F" checked><span>Female</span></label>
+                    <label><input type="checkbox" name="batch_gender" value="*All*" checked><span>All Genders</span></label>
+                    <label><input type="checkbox" name="batch_gender" value="M"><span>Male</span></label>
+                    <label><input type="checkbox" name="batch_gender" value="F"><span>Female</span></label>
                 </div>
             </div>
 
             <div class="form-group">
                 <label>Cycle through Race</label>
                 <div class="multi-select">
-                    <label><input type="checkbox" name="batch_race" value="2106-3" checked><span>White</span></label>
-                    <label><input type="checkbox" name="batch_race" value="2054-5" checked><span>Black</span></label>
-                    <label><input type="checkbox" name="batch_race" value="1002-5" checked><span>American Indian/Alaska Native</span></label>
-                    <label><input type="checkbox" name="batch_race" value="A" checked><span>Asian</span></label>
-                    <label><input type="checkbox" name="batch_race" value="NHOPI" checked><span>Native Hawaiian/Pacific Islander</span></label>
+                    <label><input type="checkbox" name="batch_race" value="*All*" checked><span>All Races</span></label>
+                    <label><input type="checkbox" name="batch_race" value="2106-3"><span>White</span></label>
+                    <label><input type="checkbox" name="batch_race" value="2054-5"><span>Black</span></label>
+                    <label><input type="checkbox" name="batch_race" value="1002-5"><span>American Indian/Alaska Native</span></label>
+                    <label><input type="checkbox" name="batch_race" value="A"><span>Asian</span></label>
+                    <label><input type="checkbox" name="batch_race" value="NHOPI"><span>Native Hawaiian/Pacific Islander</span></label>
                 </div>
             </div>
 
@@ -778,6 +780,15 @@
             document.getElementById('progress-text').textContent = text;
         }
 
+        function autoDownload(url, filename) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename || '';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
         function showResults(result) {
             const container = document.getElementById('results-content');
 
@@ -796,15 +807,18 @@
             tableHtml += '</tbody></table>';
 
             container.innerHTML = `
-                <div class="status-message success">Query completed! Found ${result.rows} rows.</div>
+                <div class="status-message success">Query completed! Found ${result.rows} rows. Auto-downloading...</div>
                 <h3>Preview (first 10 rows)</h3>
                 ${tableHtml}
                 <div class="actions">
-                    <a href="/api/download/${result.filename}" class="btn btn-success">Download CSV</a>
+                    <a href="/api/download/${result.filename}" class="btn btn-success">Download CSV Again</a>
                 </div>
             `;
 
             document.getElementById('results').classList.add('show');
+
+            // Auto-download the file
+            autoDownload(`/api/download/${result.filename}`, result.filename);
         }
 
         function showMultipleResults(files) {
@@ -812,22 +826,33 @@
 
             let fileListHtml = '<ul class="file-list">';
             files.forEach(f => {
-                fileListHtml += `
-                    <li>
-                        <span>${f.name} <span class="rows">(${f.rows} rows)</span></span>
-                        <a href="/api/download/${f.file}" class="btn btn-secondary">Download</a>
-                    </li>
-                `;
+                if (f.file) {
+                    fileListHtml += `
+                        <li>
+                            <span>${f.name} <span class="rows">(${f.rows} rows)</span></span>
+                            <a href="/api/download/${f.file}" class="btn btn-secondary">Download</a>
+                        </li>
+                    `;
+                }
             });
             fileListHtml += '</ul>';
 
             container.innerHTML = `
-                <div class="status-message success">All queries completed! Created ${files.length} files.</div>
+                <div class="status-message success">All queries completed! Created ${files.length} files. Auto-downloading...</div>
                 <h3>Downloaded Files</h3>
                 ${fileListHtml}
             `;
 
             document.getElementById('results').classList.add('show');
+
+            // Auto-download all files with delay to prevent browser blocking
+            files.forEach((f, index) => {
+                if (f.file) {
+                    setTimeout(() => {
+                        autoDownload(`/api/download/${f.file}`, f.file);
+                    }, index * 500); // 500ms delay between each download
+                }
+            });
         }
 
         function showError(message) {
