@@ -543,8 +543,78 @@
                 <div class="multi-select">
                     <label><input type="radio" name="batch_age_cycle" value="none" checked><span>All ages in one file</span></label>
                     <label><input type="radio" name="batch_age_cycle" value="cycle"><span>Separate file per age group</span></label>
+                    <label><input type="radio" name="batch_age_cycle" value="custom"><span>Custom age buckets (define below)</span></label>
                 </div>
                 <small style="color: #666; margin-top: 8px; display: block;">Uses the age granularity selected above (11 or 24 files per combination)</small>
+            </div>
+
+            <!-- Custom Age Buckets -->
+            <div class="form-group" id="custom-age-section" style="display: none; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+                <label>Define Custom Age Buckets</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
+                    <div>
+                        <input type="text" id="age_bucket_a_name" value="Under 65" placeholder="Group A Name" style="margin-bottom: 8px;">
+                        <div class="checkbox-grid" id="age_bucket_a">
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_a" value="1" checked><span>&lt;1</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_a" value="1-4" checked><span>1-4</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_a" value="5-14" checked><span>5-14</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_a" value="15-24" checked><span>15-24</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_a" value="25-34" checked><span>25-34</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_a" value="35-44" checked><span>35-44</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_a" value="45-54" checked><span>45-54</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_a" value="55-64" checked><span>55-64</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_a" value="65-74"><span>65-74</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_a" value="75-84"><span>75-84</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_a" value="85+"><span>85+</span></label>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="text" id="age_bucket_b_name" value="65 and Over" placeholder="Group B Name" style="margin-bottom: 8px;">
+                        <div class="checkbox-grid" id="age_bucket_b">
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_b" value="1"><span>&lt;1</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_b" value="1-4"><span>1-4</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_b" value="5-14"><span>5-14</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_b" value="15-24"><span>15-24</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_b" value="25-34"><span>25-34</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_b" value="35-44"><span>35-44</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_b" value="45-54"><span>45-54</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_b" value="55-64"><span>55-64</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_b" value="65-74" checked><span>65-74</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_b" value="75-84" checked><span>75-84</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="age_bucket_b" value="85+" checked><span>85+</span></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Race Buckets -->
+            <div class="form-group">
+                <label><input type="checkbox" id="enable_race_buckets" style="width: auto; margin-right: 8px;">Enable Custom Race Buckets</label>
+            </div>
+            <div class="form-group" id="custom-race-section" style="display: none; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+                <label>Define Custom Race Buckets</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
+                    <div>
+                        <input type="text" id="race_bucket_a_name" value="White" placeholder="Group A Name" style="margin-bottom: 8px;">
+                        <div class="checkbox-grid" id="race_bucket_a">
+                            <label class="checkbox-item"><input type="checkbox" name="race_bucket_a" value="2106-3" checked><span>White</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="race_bucket_a" value="2054-5"><span>Black</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="race_bucket_a" value="1002-5"><span>AIAN</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="race_bucket_a" value="A"><span>Asian</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="race_bucket_a" value="NHOPI"><span>NHOPI</span></label>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="text" id="race_bucket_b_name" value="Non-White" placeholder="Group B Name" style="margin-bottom: 8px;">
+                        <div class="checkbox-grid" id="race_bucket_b">
+                            <label class="checkbox-item"><input type="checkbox" name="race_bucket_b" value="2106-3"><span>White</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="race_bucket_b" value="2054-5" checked><span>Black</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="race_bucket_b" value="1002-5" checked><span>AIAN</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="race_bucket_b" value="A" checked><span>Asian</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="race_bucket_b" value="NHOPI" checked><span>NHOPI</span></label>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="form-group">
@@ -652,11 +722,12 @@
         // Batch download - calculate file count
         function updateBatchCount() {
             const genders = document.querySelectorAll('input[name="batch_gender"]:checked').length || 1;
-            const races = document.querySelectorAll('input[name="batch_race"]:checked').length || 1;
+            let races = document.querySelectorAll('input[name="batch_race"]:checked').length || 1;
             const causes = document.querySelectorAll('input[name="batch_cause"]:checked').length || 1;
 
             const ageGranularity = document.querySelector('input[name="batch_age_granularity"]:checked')?.value || 'decennial';
             const ageCycle = document.querySelector('input[name="batch_age_cycle"]:checked')?.value || 'none';
+            const raceBucketsEnabled = document.getElementById('enable_race_buckets')?.checked || false;
 
             let ageMultiplier = 1;
             let ageLabel = '';
@@ -668,6 +739,16 @@
                     ageMultiplier = 24;
                     ageLabel = '24 age groups (5-yr)';
                 }
+            } else if (ageCycle === 'custom') {
+                ageMultiplier = 2;
+                ageLabel = '2 age buckets';
+            }
+
+            // If race buckets enabled, use 2 buckets instead of individual races
+            let raceLabel = '';
+            if (raceBucketsEnabled) {
+                races = 2;
+                raceLabel = '2 race buckets';
             }
 
             const total = genders * races * causes * ageMultiplier;
@@ -676,13 +757,16 @@
             let breakdown = [];
             if (genders > 1 || document.querySelectorAll('input[name="batch_gender"]:checked').length > 0)
                 breakdown.push(`${genders} gender${genders > 1 ? 's' : ''}`);
-            if (races > 1 || document.querySelectorAll('input[name="batch_race"]:checked').length > 0)
+            if (raceLabel) {
+                breakdown.push(raceLabel);
+            } else if (races > 1 || document.querySelectorAll('input[name="batch_race"]:checked').length > 0) {
                 breakdown.push(`${races} race${races > 1 ? 's' : ''}`);
+            }
             if (causes > 1 || document.querySelectorAll('input[name="batch_cause"]:checked').length > 0)
                 breakdown.push(`${causes} cause${causes > 1 ? 's' : ''}`);
             if (ageLabel) breakdown.push(ageLabel);
 
-            document.getElementById('file-breakdown').textContent = breakdown.join(' × ') + ' = ' + total + ' files';
+            document.getElementById('file-breakdown').textContent = breakdown.join(' × ') + ' = ' + total + ' queries';
         }
 
         // Update count when checkboxes change
@@ -690,6 +774,21 @@
             cb.addEventListener('change', updateBatchCount);
         });
         updateBatchCount();
+
+        // Show/hide custom age section based on selection
+        document.querySelectorAll('input[name="batch_age_cycle"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                const customSection = document.getElementById('custom-age-section');
+                customSection.style.display = document.querySelector('input[name="batch_age_cycle"]:checked')?.value === 'custom' ? 'block' : 'none';
+                updateBatchCount();
+            });
+        });
+
+        // Show/hide custom race section
+        document.getElementById('enable_race_buckets').addEventListener('change', (e) => {
+            document.getElementById('custom-race-section').style.display = e.target.checked ? 'block' : 'none';
+            updateBatchCount();
+        });
 
         // Run batch download
         document.getElementById('run-batch').addEventListener('click', async () => {
@@ -699,6 +798,36 @@
             const ageGranularity = document.querySelector('input[name="batch_age_granularity"]:checked')?.value || 'decennial';
             const ageCycle = document.querySelector('input[name="batch_age_cycle"]:checked')?.value || 'none';
             const outputFormat = document.querySelector('input[name="batch_output"]:checked')?.value || 'separate';
+
+            // Custom age buckets
+            let customAgeBuckets = null;
+            if (ageCycle === 'custom') {
+                customAgeBuckets = {
+                    bucket_a: {
+                        name: document.getElementById('age_bucket_a_name').value,
+                        ages: Array.from(document.querySelectorAll('input[name="age_bucket_a"]:checked')).map(cb => cb.value)
+                    },
+                    bucket_b: {
+                        name: document.getElementById('age_bucket_b_name').value,
+                        ages: Array.from(document.querySelectorAll('input[name="age_bucket_b"]:checked')).map(cb => cb.value)
+                    }
+                };
+            }
+
+            // Custom race buckets
+            let customRaceBuckets = null;
+            if (document.getElementById('enable_race_buckets').checked) {
+                customRaceBuckets = {
+                    bucket_a: {
+                        name: document.getElementById('race_bucket_a_name').value,
+                        races: Array.from(document.querySelectorAll('input[name="race_bucket_a"]:checked')).map(cb => cb.value)
+                    },
+                    bucket_b: {
+                        name: document.getElementById('race_bucket_b_name').value,
+                        races: Array.from(document.querySelectorAll('input[name="race_bucket_b"]:checked')).map(cb => cb.value)
+                    }
+                };
+            }
 
             if (genders.length === 0 && races.length === 0 && causes.length === 0) {
                 alert('Please select at least one option to cycle through');
@@ -717,8 +846,10 @@
                         races: races.length > 0 ? races : ['*All*'],
                         causes: causes.length > 0 ? causes : [''],
                         age_granularity: ageGranularity,
-                        age_cycle: ageCycle === 'cycle',
-                        combine_files: outputFormat === 'combined'
+                        age_cycle: ageCycle === 'cycle' ? true : (ageCycle === 'custom' ? 'custom' : false),
+                        combine_files: outputFormat === 'combined',
+                        custom_age_buckets: customAgeBuckets,
+                        custom_race_buckets: customRaceBuckets
                     })
                 });
                 const data = await response.json();

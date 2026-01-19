@@ -385,6 +385,8 @@ def execute_batch_queries(job_id, data):
     age_granularity = data.get("age_granularity", "decennial")
     age_cycle = data.get("age_cycle", False)
     combine_files = data.get("combine_files", False)
+    custom_age_buckets = data.get("custom_age_buckets")
+    custom_race_buckets = data.get("custom_race_buckets")
 
     # Determine age parameter based on granularity (this affects the group-by in the query)
     if age_granularity == "quinquennial":
@@ -394,17 +396,41 @@ def execute_batch_queries(job_id, data):
         age_groups_dict = AGE_DECENNIAL
         age_param = "V_D176.V5"
 
-    # If cycling through ages, iterate through each age group; otherwise use None (all ages)
-    age_groups = list(age_groups_dict.keys()) if age_cycle else [None]
+    # Build age iteration list
+    if age_cycle == 'custom' and custom_age_buckets:
+        # Custom age buckets: list of (bucket_name, age_code) tuples
+        age_items = []
+        for age_code in custom_age_buckets.get('bucket_a', {}).get('ages', []):
+            age_items.append((custom_age_buckets['bucket_a']['name'], age_code))
+        for age_code in custom_age_buckets.get('bucket_b', {}).get('ages', []):
+            age_items.append((custom_age_buckets['bucket_b']['name'], age_code))
+    elif age_cycle == True:
+        # Individual age groups
+        age_items = [(None, age) for age in age_groups_dict.keys()]
+    else:
+        age_items = [(None, None)]
+
+    # Build race iteration list
+    if custom_race_buckets:
+        # Custom race buckets: list of (bucket_name, race_code) tuples
+        race_items = []
+        for race_code in custom_race_buckets.get('bucket_a', {}).get('races', []):
+            race_items.append((custom_race_buckets['bucket_a']['name'], race_code))
+        for race_code in custom_race_buckets.get('bucket_b', {}).get('races', []):
+            race_items.append((custom_race_buckets['bucket_b']['name'], race_code))
+    else:
+        race_items = [(None, race) for race in races]
 
     # Generate all combinations
-    combinations = list(itertools.product(genders, races, causes, age_groups))
+    combinations = list(itertools.product(genders, race_items, causes, age_items))
     total = len(combinations)
     files = []
 
     # For combined output
     combined_data = []
     combined_headers = None
+    use_age_bucket = age_cycle == 'custom' and custom_age_buckets
+    use_race_bucket = custom_race_buckets is not None
 
     # Human-readable labels for combined file
     GENDER_READABLE = {"M": "Male", "F": "Female", "*All*": "All"}
@@ -432,21 +458,28 @@ def execute_batch_queries(job_id, data):
     client = CDCWonderClient()
 
     try:
-        for i, (gender, race, cause, age) in enumerate(combinations):
+        for i, (gender, race_item, cause, age_item) in enumerate(combinations):
+            race_bucket, race = race_item
+            age_bucket, age = age_item
+
             # Build filename
             parts = []
             if gender != "*All*":
                 parts.append(GENDER_LABELS.get(gender, gender))
-            if race != "*All*":
+            if race_bucket:
+                parts.append(race_bucket.replace(" ", "_"))
+            elif race != "*All*":
                 parts.append(RACE_LABELS.get(race, race))
             if cause:
                 parts.append(CAUSE_LABELS.get(cause, cause))
-            if age:
+            if age_bucket:
+                parts.append(age_bucket.replace(" ", "_"))
+            elif age:
                 parts.append(age_groups_dict.get(age, age))
 
             filename = "deaths_" + ("_".join(parts) if parts else "all") + ".csv"
             jobs[job_id]["progress"] = int((i / total) * 100)
-            jobs[job_id]["current"] = f"Query {i+1}/{total}: {filename}"
+            jobs[job_id]["current"] = f"Query {i+1}/{total}"
 
             # Load and modify template
             tree = ET.parse(template_file)
@@ -473,7 +506,7 @@ def execute_batch_queries(job_id, data):
                         break
 
             # Set race filter
-            if race != "*All*":
+            if race and race != "*All*":
                 for param in root.findall("parameter"):
                     name = param.find("name")
                     if name is not None and name.text == "V_D176.V42":
@@ -528,21 +561,35 @@ def execute_batch_queries(job_id, data):
                     if combine_files:
                         # Store headers from first result
                         if combined_headers is None:
-                            combined_headers = ["Gender", "Race", "Cause_of_Death"] + result["headers"]
+                            combined_headers = ["Gender"]
+                            if use_race_bucket:
+                                combined_headers.append("Race_Bucket")
+                            combined_headers.append("Race")
+                            combined_headers.append("Cause_of_Death")
+                            if use_age_bucket:
+                                combined_headers.append("Age_Bucket")
                             if age_cycle:
-                                combined_headers.insert(3, "Age_Filter")
+                                combined_headers.append("Age_Filter")
+                            combined_headers.extend(result["headers"])
 
                         # Add rows with identifying columns
                         gender_label = GENDER_READABLE.get(gender, gender)
-                        race_label = RACE_READABLE.get(race, race)
+                        race_label = RACE_READABLE.get(race, race) if race else "All"
                         cause_label = CAUSE_READABLE.get(cause, cause)
                         age_label = age_groups_dict.get(age, "All") if age else "All"
 
                         for row in result["data"]:
+                            new_row = [gender_label]
+                            if use_race_bucket:
+                                new_row.append(race_bucket or "All")
+                            new_row.append(race_label)
+                            new_row.append(cause_label)
+                            if use_age_bucket:
+                                new_row.append(age_bucket or "All")
                             if age_cycle:
-                                combined_data.append([gender_label, race_label, cause_label, age_label] + list(row))
-                            else:
-                                combined_data.append([gender_label, race_label, cause_label] + list(row))
+                                new_row.append(age_label)
+                            new_row.extend(list(row))
+                            combined_data.append(new_row)
                     else:
                         client.save_to_csv(result, filename)
                         files.append({"name": filename.replace(".csv", "").replace("deaths_", ""), "file": filename, "rows": len(result["data"])})
