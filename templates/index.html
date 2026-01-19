@@ -740,15 +740,20 @@
                     ageLabel = '24 age groups (5-yr)';
                 }
             } else if (ageCycle === 'custom') {
-                ageMultiplier = 2;
-                ageLabel = '2 age buckets';
+                // Count actual ages selected in both buckets
+                const agesA = document.querySelectorAll('input[name="age_bucket_a"]:checked').length;
+                const agesB = document.querySelectorAll('input[name="age_bucket_b"]:checked').length;
+                ageMultiplier = agesA + agesB;
+                ageLabel = `${ageMultiplier} ages in 2 buckets`;
             }
 
-            // If race buckets enabled, use 2 buckets instead of individual races
+            // If race buckets enabled, count actual races in both buckets
             let raceLabel = '';
             if (raceBucketsEnabled) {
-                races = 2;
-                raceLabel = '2 race buckets';
+                const racesA = document.querySelectorAll('input[name="race_bucket_a"]:checked').length;
+                const racesB = document.querySelectorAll('input[name="race_bucket_b"]:checked').length;
+                races = racesA + racesB;
+                raceLabel = `${races} races in 2 buckets`;
             }
 
             const total = genders * races * causes * ageMultiplier;
